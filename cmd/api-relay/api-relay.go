@@ -14,9 +14,9 @@ func main() {
 	if !exists {
 		port = "2001"
 	}
-	fmt.Println("Running on port " + ":" + port)
+	fmt.Println("Running on port " + port)
 	http.HandleFunc("/", RelayServer)
-	http.ListenAndServe(port, nil)
+	http.ListenAndServe(":"+port, nil)
 }
 
 func RelayServer(w http.ResponseWriter, r *http.Request) {
