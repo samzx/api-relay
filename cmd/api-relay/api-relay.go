@@ -5,18 +5,21 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 )
 
 // GOOS=linux GOARCH=amd64 go build
 func main() {
-	port := ":2001"
-	fmt.Println("Running on port " + port)
+	port, exists := os.LookupEnv("PORT")
+	if !exists {
+		port = "2001"
+	}
+	fmt.Println("Running on port " + ":" + port)
 	http.HandleFunc("/", RelayServer)
 	http.ListenAndServe(port, nil)
 }
 
 func RelayServer(w http.ResponseWriter, r *http.Request) {
-
 	// Enable CORS
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
